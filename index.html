@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quick Math Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f1f5f9;
+            padding: 30px;
+        }
+        .box {
+            background: white;
+            padding: 25px;
+            width: 350px;
+            margin: auto;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input {
+            padding: 10px;
+            width: 80%;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 15px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        #feedback {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+        #score {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <h2>Quick Math Quiz</h2>
+
+        <p id="question">Loading question...</p>
+
+        <input type="number" id="answer" placeholder="Your answer here">
+        <br>
+        <button onclick="checkAnswer()">Submit</button>
+
+        <p id="feedback"></p>
+        <p id="score">Score: 0</p>
+    </div>
+
+<script>
+    let num1, num2, operator, correctAnswer;
+    let score = 0;
+
+    function generateQuestion() {
+        num1 = Math.floor(Math.random() * 10) + 1;
+        num2 = Math.floor(Math.random() * 10) + 1;
+
+        const operators = ["+", "-", "×"];
+        operator = operators[Math.floor(Math.random() * operators.length)];
+
+        if (operator === "+") correctAnswer = num1 + num2;
+        if (operator === "-") correctAnswer = num1 - num2;
+        if (operator === "×") correctAnswer = num1 * num2;
+
+        document.getElementById("question").innerHTML = 
+            `What is <b>${num1} ${operator} ${num2}</b>?`;
+    }
+
+    function checkAnswer() {
+        const userAnswer = Number(document.getElementById("answer").value);
+
+        if (userAnswer === correctAnswer) {
+            document.getElementById("feedback").style.color = "green";
+            document.getElementById("feedback").innerHTML = "Correct!";
+            score++;
+        } else {
+            document.getElementById("feedback").style.color = "red";
+            document.getElementById("feedback").innerHTML = 
+                `Wrong! The answer was ${correctAnswer}`;
+        }
+
+        document.getElementById("score").innerHTML = "Score: " + score;
+        document.getElementById("answer").value = "";
+
+        generateQuestion(); // next question
+    }
+
+    generateQuestion(); // first question
+</script>
+
+</body>
+</html>
